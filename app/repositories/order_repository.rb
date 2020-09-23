@@ -27,6 +27,8 @@ class OrderRepository
   def create(order)
     order.id = @next_id
     @next_id += 1
+    # Add the order to its employee:
+    order.employee.add_order(order)
     @orders << order
     save_csv
   end
@@ -41,7 +43,10 @@ class OrderRepository
       row[:customer] = @customer_repository.find(row[:customer_id].to_i)
       row[:employee] = @employee_repository.find(row[:employee_id].to_i)
       row[:meal] = @meal_repository.find(row[:meal_id].to_i)
-      @orders << Order.new(row)
+      order = Order.new(row)
+      # Also add the order to its employee
+      order.employee.add_order(order)
+      @orders << order
     end
     @next_id = @orders.last.id + 1 if @orders.any?
   end

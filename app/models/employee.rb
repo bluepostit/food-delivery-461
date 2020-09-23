@@ -7,6 +7,8 @@ class Employee
     @username = attr[:username]
     @password = attr[:password]
     @role = attr[:role]
+    # Also keep track of this employee's orders!
+    @orders = []
   end
 
   def manager?
@@ -15,5 +17,13 @@ class Employee
 
   def delivery_guy?
     @role == 'delivery_guy'
+  end
+
+  def add_order(order)
+    @orders << order
+  end
+
+  def undelivered_orders
+    @orders.reject { |order| order.delivered? }
   end
 end
