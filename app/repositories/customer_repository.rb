@@ -24,6 +24,10 @@ class CustomerRepository
     @customers.find { |customer| customer.id == id }
   end
 
+  def get(index)
+    @customers[index]
+  end
+
   private
 
   def save_csv

@@ -24,6 +24,10 @@ class MealRepository
     @meals.find { |meal| meal.id == id }
   end
 
+  def get(index)
+    @meals[index]
+  end
+
   private
 
   def save_csv

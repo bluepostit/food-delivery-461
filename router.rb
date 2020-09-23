@@ -2,10 +2,12 @@
 class Router
   def initialize(meals_controller,
                  customers_controller,
-                 sessions_controller)
+                 sessions_controller,
+                 orders_controller)
     @meals_controller = meals_controller
     @customers_controller = customers_controller
     @sessions_controller = sessions_controller
+    @orders_controller = orders_controller
     @running = true
   end
 
@@ -45,6 +47,8 @@ class Router
     puts '2. List all meals'
     puts '3. Add a customer'
     puts '4. List all customers'
+    puts '5. Add an order'
+    puts '6. List all undelivered orders'
     puts '8. Sign out'
     puts '9. Exit'
   end
@@ -69,6 +73,8 @@ class Router
     when 2 then @meals_controller.list
     when 3 then @customers_controller.add
     when 4 then @customers_controller.list
+    when 5 then @orders_controller.create
+    when 6 then @orders_controller.list_undelivered
     when 8 then sign_out
     when 9 then stop
     else puts "Please try again"
