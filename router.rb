@@ -9,24 +9,29 @@ class Router
     @running = true
   end
 
+  def manager_menu
+    display_manager_menu
+    action = user_action
+    print `clear`
+    dispatch_manager_action(action)
+  end
+
+  def employee_menu
+    display_delivery_menu
+    action = user_action
+    print `clear`
+    dispatch_delivery_action(action)
+  end
+
   def run
-    # Login...
     while @running
+      # Sign in
       @employee = @sessions_controller.sign_in
       while @employee
-        # display menu
-        # get user's choice
-        # dispatch action - user's choice
         if @employee.manager?
-          display_manager_menu
-          action = user_action
-          print `clear`
-          dispatch_manager_action(action)
+          manager_menu
         else
-          display_delivery_menu
-          action = user_action
-          print `clear`
-          dispatch_delivery_action(action)
+          employee_menu
         end
       end
     end
