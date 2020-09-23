@@ -33,6 +33,11 @@ class OrderRepository
     save_csv
   end
 
+  def deliver(order)
+    order.deliver!
+    save_csv
+  end
+
   private
 
   def load_csv

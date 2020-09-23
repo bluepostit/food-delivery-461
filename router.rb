@@ -84,7 +84,7 @@ class Router
 
   def dispatch_delivery_action(action)
     case action
-    when 1 then puts 'not implemented yet'
+    when 1 then @orders_controller.deliver(@employee)
     when 2 then @orders_controller.list_my_undelivered_orders(@employee)
     when 8 then sign_out
     when 9 then stop

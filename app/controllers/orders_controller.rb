@@ -54,5 +54,17 @@ class OrdersController
     orders = current_employee.undelivered_orders
     # Display them
     @view.display(orders)
+    # Return the orders for convenience
+    orders
+  end
+
+  def deliver(current_employee)
+    # Get employee's undelivered orders and display them
+    orders = list_my_undelivered_orders(current_employee)
+    # Ask user for order index
+    order_index = @view.ask_for_index('order')
+    # Mark as done, save to CSV
+    order = orders[order_index]
+    @order_repository.deliver(order)
   end
 end
