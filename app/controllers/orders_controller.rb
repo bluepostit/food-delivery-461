@@ -23,7 +23,7 @@ class OrdersController
     @view.display(orders)
   end
 
-  def create
+  def add
     # list all meals
     @meals_view.display(@meal_repository.all)
     # ask user for the meal INDEX
@@ -49,7 +49,7 @@ class OrdersController
     @order_repository.create(order)
   end
 
-  def list_my_undelivered_orders(current_employee)
+  def list_my_orders(current_employee)
     # Get the undelivered orders for the current employee
     orders = current_employee.undelivered_orders
     # Display them
@@ -58,9 +58,14 @@ class OrdersController
     orders
   end
 
-  def deliver(current_employee)
+  def list_undelivered_orders
+    orders = @order_repository.undelivered_orders
+    @view.display(orders)
+  end
+
+  def mark_as_delivered(current_employee)
     # Get employee's undelivered orders and display them
-    orders = list_my_undelivered_orders(current_employee)
+    orders = list_my_orders(current_employee)
     # Ask user for order index
     order_index = @view.ask_for_index('order')
     # Mark as done, save to CSV

@@ -20,7 +20,7 @@ class OrderRepository
     @orders
   end
 
-  def all_undelivered
+  def undelivered_orders
     @orders.reject { |order| order.delivered? }
   end
 
