@@ -40,15 +40,19 @@ class OrderRepository
 
   private
 
+  def build_order_from_csv(row)
+    row[:id] = row[:id].to_i
+    row[:delivered] = row[:delivered] == 'true'
+    row[:customer] = @customer_repository.find(row[:customer_id].to_i)
+    row[:employee] = @employee_repository.find(row[:employee_id].to_i)
+    row[:meal] = @meal_repository.find(row[:meal_id].to_i)
+    Order.new(row)
+  end
+
   def load_csv
     csv_options = { headers: :first_row, header_converters: :symbol }
     CSV.foreach(@csv_file_path, csv_options) do |row|
-      row[:id] = row[:id].to_i
-      row[:delivered] = row[:delivered] == 'true'
-      row[:customer] = @customer_repository.find(row[:customer_id].to_i)
-      row[:employee] = @employee_repository.find(row[:employee_id].to_i)
-      row[:meal] = @meal_repository.find(row[:meal_id].to_i)
-      order = Order.new(row)
+      order = build_order_from_csv(row)
       # Also add the order to its employee
       order.employee.add_order(order)
       @orders << order

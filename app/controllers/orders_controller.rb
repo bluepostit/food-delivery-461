@@ -24,27 +24,9 @@ class OrdersController
   end
 
   def add
-    # list all meals
-    @meals_view.display(@meal_repository.all)
-    # ask user for the meal INDEX
-    meal_index = @view.ask_for_index('meal')
-    # get Meal object corresponding to the index
-    meal = @meal_repository.get(meal_index)
-
-    # list all customers
-    @customers_view.display(@customer_repository.all)
-    # ask user for customer INDEX
-    customer_index = @view.ask_for_index('customer')
-    # get Customer object corr. to the index
-    customer = @customer_repository.get(customer_index)
-
-    # list all delivery guys
-    @view.display_employees(@employee_repository.all_delivery_guys)
-    # ask user for INDEX of the DELIVERY GUYS (not all employees!)
-    delivery_guy_index = @view.ask_for_index('employee')
-    # get Employee object corr. to the index
-    delivery_guy = @employee_repository.get_delivery_guy(delivery_guy_index)
-
+    meal = select_meal
+    customer = select_customer
+    delivery_guy = select_delivery_guy
     order = Order.new(meal: meal, customer: customer, employee: delivery_guy)
     @order_repository.create(order)
   end
@@ -71,5 +53,34 @@ class OrdersController
     # Mark as done, save to CSV
     order = orders[order_index]
     @order_repository.deliver(order)
+  end
+
+  private
+
+  def select_meal
+    # list all meals
+    @meals_view.display(@meal_repository.all)
+    # ask user for the meal INDEX
+    meal_index = @view.ask_for_index('meal')
+    # get Meal object corresponding to the index
+    @meal_repository.get(meal_index)
+  end
+
+  def select_customer
+    # list all customers
+    @customers_view.display(@customer_repository.all)
+    # ask user for customer INDEX
+    customer_index = @view.ask_for_index('customer')
+    # get Customer object corr. to the index
+    @customer_repository.get(customer_index)
+  end
+
+  def select_delivery_guy
+    # list all delivery guys
+    @view.display_employees(@employee_repository.all_delivery_guys)
+    # ask user for INDEX of the DELIVERY GUYS (not all employees!)
+    delivery_guy_index = @view.ask_for_index('employee')
+    # get Employee object corr. to the index
+    @employee_repository.get_delivery_guy(delivery_guy_index)
   end
 end

@@ -67,6 +67,7 @@ class Router
     gets.chomp.to_i
   end
 
+  # rubocop:disable Metrics/MethodLength
   def dispatch_manager_action(action)
     case action
     when 1 then @meals_controller.add
@@ -81,6 +82,7 @@ class Router
     end
     puts "\n"
   end
+  # rubocop:enable Metrics/MethodLength
 
   def dispatch_delivery_action(action)
     case action
